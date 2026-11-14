@@ -41,7 +41,10 @@ hijack-dns 不能拦截所有应用内 DoH/DoT；IPv6、WebRTC、系统旁路需
 
 ## 服务覆盖核对（2026-11-14）
 - 苹果必须配套 Apple_Domain.list + Apple.list；包括 App Store、系统更新、Apple Music/TV、Siri、Find My、iCloud 等上游子规则。iCloud 核心域名 icloud.com、icloud-content.com、apple-cloudkit.com、me.com 已检查。
-- Microsoft.list 可单独使用，包含 Edge、OneDrive、Teams，检查到 Office、Outlook、Bing、Live 等核心域名；GitHub 被上游排除，保持 FINAL 代理。直连不保证所有地区服务可用。
-- Google.list 可单独使用，包含 Search、Drive、Voice 及 Gmail/API/静态资源域名，明确排除 YouTube/YouTube Music；现已补上两份专用规则到全球代理，不新增策略组。
+- Microsoft.list 可单独使用，包含 Edge、OneDrive、Teams，检查到 Office、Outlook、Bing、Live 等核心域名；GitHub 被微软规则排除，现使用独立 GitHub.list 明确分配全球代理。直连不保证所有地区服务可用。
+- Google.list 可单独使用，包含 Search、Drive、Voice 及 Gmail/API/静态资源域名，明确排除 YouTube/YouTube Music；YouTube 保留专用代理规则；YouTube Music 专用规则已移除，不新增策略组。
 - 规则覆盖不等于所有实际请求均已验收，服务共享 CDN、上游重叠与应用内解析仍需查看日志。没有为了凑齐 China 全套而加入 China.list 的宽泛关键词规则，国内当前使用纯域名集合加 ChinaIPs/GEOIP。
+
+
+GitHub.list 分配全球代理，覆盖 github.com（含 API）、githubusercontent.com（含 Raw/下载）、githubassets.com、github.io、github.dev、githubcopilot.com、ghcr.io，以及上游收录的 npmjs.com/npmjs.org 等。移除音乐专用订阅不代表将音乐直连，未命中其他规则时仍由 FINAL 代理。
 
