@@ -5,7 +5,7 @@
 ## 方案
 - 本机需要解析的域名统一使用阿里、Cloudflare、Google DoH，并发查询，不是主备。国内外不再分别指定 DNS。
 - 国内域名、国内 IP、苹果（含 iCloud）、微软、谷歌规则直接订阅 blackmatrix7；苹果/iCloud/微软直连，谷歌代理。已移除国外综合规则，其他未命中流量由 FINAL 代理。GEOIP,CN 补充国内 IP 判断。
-- 自定义规则本地填写；国内/局域网/苹果/iCloud/微软分配到“国内直连”（DIRECT）；谷歌及 FINAL 分配到“全球代理”。
+- 自定义规则本地填写；国内/局域网/苹果/iCloud/微软分配到“国内直连”（DIRECT）；谷歌分配到“全球代理”，FINAL 分配到“漏网之鱼”（使用全球代理）。
 - 局域网代理访问默认关闭，局域网地址仍按规则直连。
 - 脚本、远程脚本、插件、MITM 不配置，不复制第三方证书。
 
@@ -47,4 +47,7 @@ hijack-dns 不能拦截所有应用内 DoH/DoT；IPv6、WebRTC、系统旁路需
 
 
 GitHub.list 分配全球代理，覆盖 github.com（含 API）、githubusercontent.com（含 Raw/下载）、githubassets.com、github.io、github.dev、githubcopilot.com、ghcr.io，以及上游收录的 npmjs.com/npmjs.org 等。移除音乐专用订阅不代表将音乐直连，未命中其他规则时仍由 FINAL 代理。
+
+
+策略组共三个：国内直连、全球代理、漏网之鱼。FINAL 固定语法保留，目标为漏网之鱼，其唯一选项是全球代理，不提供直连备用。
 
