@@ -12,7 +12,7 @@
 ## 使用前
 1. 在设备本地添加自建节点和订阅。名称过滤器自动纳入匹配节点，“全球代理”组每 600 秒测速选择节点。不要添加不可信订阅；名称过滤不保证排除全部通知/回国节点。无可用节点时没有 DIRECT 备用。
 2. 到 Loon DNS 服务器页面关闭加密 DNS 失败回落普通 DNS。本配置不提供普通 DNS，不使用 system 兜底。
-3. 确认六份规则和 GeoIP 数据库下载成功。建议规则每天检查、GeoIP 每周检查，更新周期在 App 中设置。
+3. 确认八份规则和 GeoIP 数据库下载成功。建议规则每天检查、GeoIP 每周检查，更新周期在 App 中设置。
 4. 不要把含节点密码、订阅 token、私钥、证书的设备完整配置上传公开仓库。
 
 ## 安全边界
@@ -37,4 +37,11 @@ hijack-dns 不能拦截所有应用内 DoH/DoT；IPv6、WebRTC、系统旁路需
 
 
 苹果分类必须同时加载 Apple_Domain.list（常规域名）与 Apple.list（其余规则），两者均分配国内直连。修复 iCloud 域名因缺少配套列表而落入 FINAL 的问题。
+
+
+## 服务覆盖核对（2026-11-14）
+- 苹果必须配套 Apple_Domain.list + Apple.list；包括 App Store、系统更新、Apple Music/TV、Siri、Find My、iCloud 等上游子规则。iCloud 核心域名 icloud.com、icloud-content.com、apple-cloudkit.com、me.com 已检查。
+- Microsoft.list 可单独使用，包含 Edge、OneDrive、Teams，检查到 Office、Outlook、Bing、Live 等核心域名；GitHub 被上游排除，保持 FINAL 代理。直连不保证所有地区服务可用。
+- Google.list 可单独使用，包含 Search、Drive、Voice 及 Gmail/API/静态资源域名，明确排除 YouTube/YouTube Music；现已补上两份专用规则到全球代理，不新增策略组。
+- 规则覆盖不等于所有实际请求均已验收，服务共享 CDN、上游重叠与应用内解析仍需查看日志。没有为了凑齐 China 全套而加入 China.list 的宽泛关键词规则，国内当前使用纯域名集合加 ChinaIPs/GEOIP。
 
